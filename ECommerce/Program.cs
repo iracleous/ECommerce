@@ -73,7 +73,7 @@ namespace ECommerce
         }
 
 
-        public static void test()
+        public static void test6()
         {
             Product product = new Product
             {

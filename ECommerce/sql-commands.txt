@@ -1,0 +1,105 @@
+﻿create table [customer](
+[id] int primary key identity(1,1),
+[firstname] nvarchar(255),
+[lastname] nvarchar(255),
+[age] int 
+)
+go
+create table [product](
+[id] int primary key identity(1,1),
+[name] nvarchar(255),
+[price] money
+)
+
+go
+
+create table [order](
+[id] int primary key identity(1,1),
+[date] datetime,
+[customerid] int,
+
+foreign key ([customerid])  references [customer] ([id])
+)
+
+go
+
+create table [orderlist]
+( [id] int primary key identity(1,1),
+[orderid] int,
+[productid] int,
+
+foreign key ([orderid])  references [order] ([id]),
+foreign key ([productid]) references [product] ([id])
+)
+
+
+
+-------------------------
+USE [accenture]
+GO
+
+insert into [product] ([name],[price])
+values
+('potatoes',12.34),
+('apples',13.17),
+('oranges',23.37),
+('onions',67.7)
+
+go
+
+insert into [customer] ([firstname],[lastname], [age])
+values
+('dimitris','dimitriou', 18),
+('georgios','georgiou', 19),
+('nikos','nikolaou', 20),
+('aris','dimitriou', 21)
+
+GO
+
+INSERT INTO  [order]
+           ([date] ,[customerid])
+     VALUES
+           (getdate()
+		   ,1)
+GO
+ 
+
+INSERT INTO  [orderlist]
+           ([orderid]  ,[productid])
+     VALUES 
+	 (1 ,1),
+	 (1 ,3),
+	 (1 ,4)
+GO
+
+
+INSERT INTO  [order]
+           ([date] ,[customerid])
+     VALUES
+           (getdate()
+		   ,2)
+GO
+ 
+
+INSERT INTO  [orderlist]
+           ([orderid]  ,[productid])
+     VALUES 
+	 (2 ,2),
+	 (2 ,4),
+	 (2 ,4)
+GO
+
+
+
+---------------------------------
+select   [product].[name], [product].[price]
+from [orderlist]
+inner join  [product]
+on [orderlist]. [productid]=[product].[id]
+where [orderlist].[orderid]=2
+
+
+
+
+
+
